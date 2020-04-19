@@ -6,26 +6,35 @@ mndata = MNIST('./data')
 images, labels = mndata.load_training()
 t_images, t_labels = mndata.load_testing()
 
-traiY = labels
-trainY = np.array(traiY)
+images = np.array(images)
+t_images = np.array(t_images)
+labels = np.array(labels)
+t_labels = np.array(t_labels)
 
-traiX = images
-trainX = np.array(traiX)
+print("training instances:", images.shape[0])
+print("testing instances:", t_images.shape[0])
 
-tesY = t_labels
-testY = np.array(tesY)
+num_class = len(np.unique(labels))
 
-tesX = t_images
-testX = np.array(tesX)
-#print(trainY.shape[1], len(np.unique(trainY)))
+print("There are", num_class,"classes")
 
-def getLoss(w,trainX,trainY,lam):
-    m = trainX.shape[0]
-    trainY_mat = oneHotIt(trainY)
-    scores = np.dot(trainX,w)
+print("statistics for training")
+
+for i in range(num_class):
+    print("class", i, "instances: ", np.sum(labels==i))
+
+print("statistics for testing") 
+
+for i in range(num_class):
+    print("class", i, "instances: ", np.sum(t_labels==i))
+
+def getLoss(w,images,labels,lam):
+    m = images.shape[0]
+    labels_mat = oneHotIt(labels)
+    scores = np.dot(images,w)
     prob = softmax(scores)
-    loss = (-1 / m) * np.sum(trainY_mat * np.log(prob)) + (lam/2)*np.sum(w*w)
-    grad = (-1 / m) * np.dot(trainX.T,(trainY_mat - prob)) + lam*w
+    loss = (-1 / m) * np.sum(labels_mat * np.log(prob)) + (lam/2)*np.sum(w*w)
+    grad = (-1 / m) * np.dot(images.T,(labels_mat - prob)) + lam*w
     return loss,grad
     
 def softmax(z):
@@ -50,15 +59,15 @@ def getAccuracy(someX,someY):
     accuracy = sum(prede == someY)/(float(len(someY)))
     return accuracy
 
-w = np.zeros([trainX.shape[1],len(np.unique(trainY))])
+w = np.zeros([images.shape[1],num_class])
 lam = 1
 iterations = 10
 learningRate = 1e-5
 losses = []
 for i in range(0,iterations):
-    loss,grad = getLoss(w,trainX,trainY,lam)
+    loss,grad = getLoss(w,images,labels,lam)
     losses.append(loss)
     w = w - (learningRate * grad)
     
-print ('Training Accuracy: ', getAccuracy(trainX,trainY))
-print ('Test Accuracy: ', getAccuracy(testX,testY))
+print ('Training Accuracy: ', getAccuracy(images,labels))
+print ('Test Accuracy: ', getAccuracy(t_images,t_labels))

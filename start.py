@@ -1,5 +1,5 @@
 import numpy as np
-import scipy.sparse
+from lib import *
 from mnist.loader import MNIST
 
 mndata = MNIST('./data')

@@ -21,7 +21,7 @@ def print_statistics(images, t_images, labels, t_labels):
     print("there are", images.shape[1],"features")
     return
         
-def hypothesis(images,labels):
+def hypothesis(num_class,images,labels,theta):
     h_final=[]
     for i in range(num_class):
         h_0=np.dot(theta[:,i], images[0].T)
@@ -31,3 +31,7 @@ def hypothesis(images,labels):
     h_final=np.array([h_final])
     h_final=h_final.T
     return h_final
+    
+    
+    
+

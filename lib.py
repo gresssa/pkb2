@@ -1,15 +1,22 @@
 import numpy as np
 
-print_statistics(images, t_images, labels, t_labels):
-    #number of training dataset
-    len(labels)
-    #number of test dataset
-    len(t_labels)
-    #number of class
-    len(np.unique(labels))
-    #number of instances per class on training
-    for i in np.unique(labels):
-        np.sum(labels==i)
-    #number of instances per class on test dataset
-    for i in np.unique(t_labels):
-        np.sum(t_labels==i)
+def print_statistics(images, t_images, labels, t_labels):
+    print("training instances:", images.shape[0])
+    print("testing instances:", t_images.shape[0])
+
+    num_class = len(np.unique(labels))
+
+    print("There are", num_class,"classes")
+
+    print("statistics for training")
+
+    for i in range(num_class):
+        print("class", i, "instances: ", np.sum(labels==i))
+
+    print("statistics for testing") 
+
+    for i in range(num_class):
+        print("class", i, "instances: ", np.sum(t_labels==i))
+        
+    print("there are", images.shape[1],"features")
+    return

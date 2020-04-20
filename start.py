@@ -19,7 +19,11 @@ images = np.hstack((bias,images))
 (m2,n2) = t_images.shape
 t_bias = np.ones((m2,1))
 t_images = np.hstack((t_bias,t_images))
-num_class=len(np.unique(labels))
+images=np.array([images])
+num_class = len(np.unique(labels))
+theta = np.random.rand(num_class,n+1)
+theta = np.array([theta])
 
-thetas=np.random.rand(m,n-1)*0.001
-print(thetas)
+h_final = hypothesis(images,labels)
+print(h_final.shape)
+print(h_final)

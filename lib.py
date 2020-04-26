@@ -29,9 +29,7 @@ def hypothesis(num_class,images,labels,theta):
         h_final.append(h_0)
     
     h_final=np.array([h_final])
-    h_final=h_final.T
-    return h_final
-    
-    
-    
-
+    exp=np.sum(h_final)
+    hypo=h_final/exp
+    hypo=hypo.T
+    return hypo
